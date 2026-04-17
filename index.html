@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>세무회계 경최 | 종합소득세 신고 정보 입력</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI', Roboto, 'Malgun Gothic', sans-serif;
+      background: #f7f5f0;
+      color: #2c2c2a;
+      line-height: 1.6;
+      padding: 20px 16px 60px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 14px;
+      border: 0.5px solid rgba(0,0,0,0.08);
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #E6F1FB;
+      color: #0C447C;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .header-title {
+      font-weight: 500;
+      font-size: 15px;
+    }
+
+    .header-desc {
+      font-size: 13px;
+      color: #5F5E5A;
+      line-height: 1.6;
+    }
+
+    .form-card {
+      background: #fff;
+      border-radius: 12px;
+      border: 0.5px solid rgba(0,0,0,0.08);
+      padding: 22px 20px 24px;
+    }
+
+    .section {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 0.5px solid rgba(0,0,0,0.08);
+    }
+
+    .section:last-of-type {
+      border-bottom: none;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: #185FA5;
+      margin-bottom: 12px;
+      letter-spacing: 0.3px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: #5F5E5A;
+      margin-bottom: 5px;
+      margin-top: 10px;
+    }
+
+    label:first-child, .section > label:first-of-type {
+      margin-top: 0;
+    }
+
+    .required::after {
+      content: ' *';
+      color: #E24B4A;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 0.5px solid rgba(0,0,0,0.2);
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: inherit;
+      background: #fff;
+      color: #2c2c2a;
+      transition: border-color 0.15s;
+      -webkit-appearance: none;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #185FA5;
+      box-shadow: 0 0 0 3px rgba(24,95,165,0.1);
+    }
+
+    input::placeholder {
+      color: #B4B2A9;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: #2c2c2a;
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 18px;
+      font-family: inherit;
+      transition: opacity 0.15s;
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      opacity: 0.85;
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .footer-note {
+      font-size: 11px;
+      color: #888780;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .success-msg {
+      display: none;
+      background: #EAF3DE;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-top: 14px;
+      text-align: center;
+    }
+
+    .success-msg.show { display: block; }
+
+    .success-title {
+      font-size: 15px;
+      color: #27500A;
+      font-weight: 500;
+    }
+
+    .success-desc {
+      font-size: 13px;
+      color: #3B6D11;
+      margin-top: 4px;
+    }
+
+    .error-msg {
+      display: none;
+      background: #FCEBEB;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 10px;
+      text-align: center;
+      font-size: 13px;
+      color: #A32D2D;
+    }
+
+    .error-msg.show { display: block; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <div class="header-row">
+        <div class="logo">세</div>
+        <div class="header-title">세무회계 경최</div>
+      </div>
+      <p class="header-desc">종합소득세 신고대리를 위해 아래 정보를 입력해주세요. 입력된 정보는 신고 목적으로만 사용되며 안전하게 보관됩니다.</p>
+    </div>
+
+    <form id="taxForm" class="form-card">
+
+      <div class="section">
+        <div class="section-title">1. 기본 정보</div>
+
+        <label class="required">업체명(상호)</label>
+        <input type="text" id="company" required placeholder="예: 알록달록비치펜션">
+
+        <label class="required">대표자명</label>
+        <input type="text" id="ceo" required placeholder="예: 홍길동">
+
+        <label class="required">전화번호</label>
+        <input type="tel" id="phone" required placeholder="010-0000-0000">
+
+        <label>이메일</label>
+        <input type="email" id="email" placeholder="example@naver.com">
+      </div>
+
+      <div class="section">
+        <div class="section-title">2. 홈택스 로그인 정보</div>
+
+        <label class="required">홈택스 ID</label>
+        <input type="text" id="htax_id" required placeholder="홈택스 로그인 아이디">
+
+        <label class="required">홈택스 비밀번호</label>
+        <input type="password" id="htax_pw" required placeholder="홈택스 로그인 비밀번호">
+      </div>
+
+      <div class="section">
+        <div class="section-title">3. 개인 정보</div>
+
+        <label class="required">주민등록번호</label>
+        <input type="text" id="rrn" required placeholder="000000-0000000">
+
+        <label class="required">자택 주소 (현재 거주지)</label>
+        <input type="text" id="home_addr" required placeholder="도로명 주소 + 상세주소">
+      </div>
+
+      <div class="section">
+        <div class="section-title">4. 사업자 정보</div>
+
+        <label class="required">사업자등록번호</label>
+        <input type="text" id="biz_no" required placeholder="000-00-00000">
+
+        <label class="required">사업장 주소</label>
+        <input type="text" id="biz_addr" required placeholder="사업장 소재지">
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">제출하기</button>
+      <p class="footer-note">제출된 정보는 세무사에게만 전달되며 안전하게 관리됩니다</p>
+      <div class="error-msg" id="errorMsg"></div>
+    </form>
+
+    <div class="success-msg" id="successMsg">
+      <div class="success-title">✓ 제출이 완료되었습니다</div>
+      <div class="success-desc">세무사가 확인 후 연락드릴 예정입니다</div>
+    </div>
+
+  </div>
+
+  <script>
+    // ⚠️ 여기를 Apps Script 배포 후 받은 웹 앱 URL로 바꿔주세요
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWDsGBicvsLW8ICjLjiEfV3E6F0y0sm156LSJH4-V9O0lxiT15UEbO2S9TMKDVrnhR/exec';
+
+    document.getElementById('taxForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const btn = document.getElementById('submitBtn');
+      const errorMsg = document.getElementById('errorMsg');
+
+      // 로딩 상태
+      btn.disabled = true;
+      btn.textContent = '제출 중...';
+      errorMsg.classList.remove('show');
+
+      const data = {
+        company:   document.getElementById('company').value.trim(),
+        ceo:       document.getElementById('ceo').value.trim(),
+        phone:     document.getElementById('phone').value.trim(),
+        email:     document.getElementById('email').value.trim(),
+        htax_id:   document.getElementById('htax_id').value.trim(),
+        htax_pw:   document.getElementById('htax_pw').value,
+        rrn:       document.getElementById('rrn').value.trim(),
+        home_addr: document.getElementById('home_addr').value.trim(),
+        biz_no:    document.getElementById('biz_no').value.trim(),
+        biz_addr:  document.getElementById('biz_addr').value.trim()
+      };
+
+      try {
+        // Apps Script로 전송 (no-cors 모드 사용)
+        await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(data)
+        });
+
+        // 성공 처리
+        document.getElementById('taxForm').style.display = 'none';
+        document.getElementById('successMsg').classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = '제출하기';
+        errorMsg.textContent = '전송 중 오류가 발생했습니다. 다시 시도해주세요.';
+        errorMsg.classList.add('show');
+      }
+    });
+
+    // 주민번호 자동 하이픈
+    document.getElementById('rrn').addEventListener('input', function(e) {
+      let v = e.target.value.replace(/[^0-9]/g, '');
+      if (v.length > 6) v = v.slice(0,6) + '-' + v.slice(6,13);
+      e.target.value = v;
+    });
+
+    // 사업자번호 자동 하이픈
+    document.getElementById('biz_no').addEventListener('input', function(e) {
+      let v = e.target.value.replace(/[^0-9]/g, '');
+      if (v.length > 5) v = v.slice(0,3) + '-' + v.slice(3,5) + '-' + v.slice(5,10);
+      else if (v.length > 3) v = v.slice(0,3) + '-' + v.slice(3);
+      e.target.value = v;
+    });
+
+    // 전화번호 자동 하이픈
+    document.getElementById('phone').addEventListener('input', function(e) {
+      let v = e.target.value.replace(/[^0-9]/g, '');
+      if (v.length > 7) v = v.slice(0,3) + '-' + v.slice(3,7) + '-' + v.slice(7,11);
+      else if (v.length > 3) v = v.slice(0,3) + '-' + v.slice(3);
+      e.target.value = v;
+    });
+  </script>
+</body>
+</html>
