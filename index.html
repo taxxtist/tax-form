@@ -78,6 +78,19 @@ input::placeholder { color: #B4B2A9; font-weight: 400; }
 .file-upload-area.has-file .file-upload-text { color: #27500A; font-weight: 700; }
 .file-upload-hint { font-size: 11px; color: #888780; margin-top: 4px; }
 
+.file-list-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; background: #EAF3DE; border: 0.5px solid #3B6D11;
+  border-radius: 8px; margin-bottom: 6px;
+}
+.file-list-item-name { flex: 1; font-size: 13px; color: #27500A; font-weight: 500; word-break: break-all; }
+.file-list-item-size { font-size: 11px; color: #3B6D11; flex-shrink: 0; }
+.file-list-item-remove {
+  font-size: 18px; color: #5F5E5A; cursor: pointer; flex-shrink: 0;
+  padding: 0 4px; line-height: 1;
+}
+.file-list-item-remove:hover { color: #E24B4A; }
+
 .account-card {
   background: #FBF5E5; border-radius: 12px; border: 0.5px solid #E5D5A6;
   padding: 22px 20px; margin-top: 12px;
@@ -243,7 +256,7 @@ input::placeholder { color: #B4B2A9; font-weight: 400; }
         </div>
         <div class="section-desc">PDF, JPG, PNG 형식 가능 · 휴대폰에서 카메라로 바로 촬영 가능</div>
 
-        <label class="required">사업자등록증</label>
+        <label>사업자등록증 (선택)</label>
         <div class="file-upload-area" id="bizRegArea">
           <svg class="file-upload-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1960B5" stroke-width="2">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -252,10 +265,10 @@ input::placeholder { color: #B4B2A9; font-weight: 400; }
           </svg>
           <div class="file-upload-text" id="bizRegText">파일 선택 또는 카메라 촬영</div>
           <div class="file-upload-hint" id="bizRegHint">최대 25MB</div>
-          <input type="file" id="bizReg" accept="image/*,.pdf" required>
+          <input type="file" id="bizReg" accept="image/*,.pdf">
         </div>
 
-        <label class="required" style="margin-top: 14px;">주민등록증 사본</label>
+        <label style="margin-top: 14px;">주민등록증 사본 (선택)</label>
         <div class="file-upload-area" id="idCardArea">
           <svg class="file-upload-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1960B5" stroke-width="2">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -264,13 +277,16 @@ input::placeholder { color: #B4B2A9; font-weight: 400; }
           </svg>
           <div class="file-upload-text" id="idCardText">파일 선택 또는 카메라 촬영</div>
           <div class="file-upload-hint" id="idCardHint">최대 25MB</div>
-          <input type="file" id="idCard" accept="image/*,.pdf" required>
+          <input type="file" id="idCard" accept="image/*,.pdf">
         </div>
 
         <label style="margin-top: 14px;">기타 서류 (선택, 여러 개 가능)</label>
+        
+        <div id="othersFileList"></div>
+        
         <div class="file-upload-area optional" id="othersArea">
           <div class="file-upload-text" id="othersText">+ 파일 추가</div>
-          <input type="file" id="others" accept="image/*,.pdf" multiple>
+          <input type="file" id="others" accept="image/*,.pdf">
         </div>
       </div>
 
@@ -396,7 +412,59 @@ function setupFileInput(inputId, areaId, textId, hintId, isMultiple) {
 
 setupFileInput('bizReg', 'bizRegArea', 'bizRegText', 'bizRegHint', false);
 setupFileInput('idCard', 'idCardArea', 'idCardText', 'idCardHint', false);
-setupFileInput('others', 'othersArea', 'othersText', null, true);
+
+// 기타 서류는 누적 추가 가능하게 별도 처리
+const otherFilesList = []; // 선택된 파일들을 저장하는 배열
+
+function renderOtherFilesList() {
+  const listEl = document.getElementById('othersFileList');
+  listEl.innerHTML = '';
+  otherFilesList.forEach((file, idx) => {
+    const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
+    const item = document.createElement('div');
+    item.className = 'file-list-item';
+    item.innerHTML = `
+      <div class="file-list-item-name">📎 ${file.name}</div>
+      <div class="file-list-item-size">${sizeMB} MB</div>
+      <div class="file-list-item-remove" data-idx="${idx}">✕</div>
+    `;
+    listEl.appendChild(item);
+  });
+  
+  // 삭제 버튼 이벤트
+  listEl.querySelectorAll('.file-list-item-remove').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const idx = parseInt(this.dataset.idx);
+      otherFilesList.splice(idx, 1);
+      renderOtherFilesList();
+    });
+  });
+  
+  // 파일 추가 버튼 텍스트 업데이트
+  const text = document.getElementById('othersText');
+  if (otherFilesList.length === 0) {
+    text.textContent = '+ 파일 추가';
+  } else {
+    text.textContent = `+ 파일 추가 (현재 ${otherFilesList.length}개)`;
+  }
+}
+
+document.getElementById('others').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  
+  if (file.size > 25 * 1024 * 1024) {
+    alert(`"${file.name}" 파일이 25MB를 초과합니다.`);
+    e.target.value = '';
+    return;
+  }
+  
+  otherFilesList.push(file);
+  renderOtherFilesList();
+  
+  // input 초기화 → 같은 파일도 다시 선택 가능
+  e.target.value = '';
+});
 
 // 계좌번호 복사
 document.getElementById('copyBtn').addEventListener('click', function() {
@@ -468,13 +536,13 @@ document.getElementById('taxForm').addEventListener('submit', async function(e) 
       });
     }
     
-    const otherFiles = document.getElementById('others').files;
-    for (let i = 0; i < otherFiles.length; i++) {
+    // 기타서류는 누적된 배열에서 가져오기
+    for (let i = 0; i < otherFilesList.length; i++) {
       files.push({
         fieldName: 'others',
-        fileName: otherFiles[i].name,
-        mimeType: otherFiles[i].type,
-        base64: await fileToBase64(otherFiles[i])
+        fileName: otherFilesList[i].name,
+        mimeType: otherFilesList[i].type,
+        base64: await fileToBase64(otherFilesList[i])
       });
     }
 
