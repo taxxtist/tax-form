@@ -1,341 +1,537 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>세무회계 경최 | 종합소득세 신고 정보 입력</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>세무회계 경최 | 종합소득세 신고 정보 입력</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+  background: #f7f5f0; color: #2c2c2a; line-height: 1.6;
+  padding: 20px 16px 60px; -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 520px; margin: 0 auto; }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI', Roboto, 'Malgun Gothic', sans-serif;
-      background: #f7f5f0;
-      color: #2c2c2a;
-      line-height: 1.6;
-      padding: 20px 16px 60px;
-      -webkit-font-smoothing: antialiased;
-    }
+.brand-header {
+  background: #1960B5; border-radius: 16px; padding: 36px 24px 30px;
+  text-align: center; margin-bottom: 12px; color: white;
+}
+.brand-logo-row { display: inline-flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+.brand-symbol { width: 62px; height: 62px; object-fit: contain; flex-shrink: 0; }
+.brand-text-group { text-align: left; }
+.brand-name { font-size: 26px; font-weight: 900; letter-spacing: -1.2px; line-height: 1.1; }
+.brand-en { font-size: 11px; letter-spacing: 4px; opacity: 0.85; margin-top: 4px; font-weight: 500; }
+.brand-slogan {
+  font-size: 15px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.5;
+  padding-top: 18px; border-top: 0.5px solid rgba(255,255,255,0.25);
+}
+.intro-text { font-size: 13px; opacity: 0.92; line-height: 1.65; margin-top: 10px; }
 
-    .container {
-      max-width: 520px;
-      margin: 0 auto;
-    }
+.form-card {
+  background: #fff; border-radius: 12px; border: 0.5px solid rgba(0,0,0,0.08);
+  padding: 22px 20px; margin-top: 12px;
+}
+.section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.section-num {
+  width: 26px; height: 26px; border-radius: 50%; background: #1960B5; color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700;
+}
+.section-title { font-size: 14px; font-weight: 700; color: #1960B5; letter-spacing: -0.2px; }
+.section-desc { font-size: 12px; color: #888780; margin-bottom: 14px; line-height: 1.5; margin-top: -8px; }
 
-    .header {
-      background: #fff;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 14px;
-      border: 0.5px solid rgba(0,0,0,0.08);
-    }
+label {
+  display: block; font-size: 13px; color: #5F5E5A;
+  margin-bottom: 5px; margin-top: 12px; font-weight: 500;
+}
+label:first-of-type { margin-top: 0; }
+.required::after { content: ' *'; color: #E24B4A; }
 
-    .header-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
+input[type="text"], input[type="tel"], input[type="email"], input[type="password"] {
+  width: 100%; padding: 11px 12px; border: 0.5px solid rgba(0,0,0,0.2);
+  border-radius: 8px; font-size: 15px; font-family: inherit;
+  background: #fff; color: #2c2c2a; -webkit-appearance: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+input:focus { outline: none; border-color: #1960B5; box-shadow: 0 0 0 3px rgba(25,96,181,0.12); }
+input::placeholder { color: #B4B2A9; font-weight: 400; }
 
-    .logo {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #E6F1FB;
-      color: #0C447C;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 500;
-      font-size: 13px;
-    }
+.file-upload-area {
+  border: 1.5px dashed #B5D4F4; border-radius: 8px; padding: 16px;
+  text-align: center; background: #F5FAFF; cursor: pointer;
+  transition: background 0.15s; position: relative;
+}
+.file-upload-area:hover { background: #EBF4FF; }
+.file-upload-area.optional { border-color: #D3D1C7; background: #FAFAF8; }
+.file-upload-area.has-file { border-color: #3B6D11; background: #EAF3DE; border-style: solid; }
+.file-upload-area input[type="file"] {
+  position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer;
+}
+.file-upload-icon { display: block; margin: 0 auto 4px; }
+.file-upload-text { font-size: 13px; color: #1960B5; font-weight: 500; }
+.file-upload-area.optional .file-upload-text { color: #888780; }
+.file-upload-area.has-file .file-upload-text { color: #27500A; font-weight: 700; }
+.file-upload-hint { font-size: 11px; color: #888780; margin-top: 4px; }
 
-    .header-title {
-      font-weight: 500;
-      font-size: 15px;
-    }
+.account-card {
+  background: #FBF5E5; border-radius: 12px; border: 0.5px solid #E5D5A6;
+  padding: 22px 20px; margin-top: 12px;
+}
+.account-header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;
+}
+.account-label { font-size: 13px; font-weight: 700; color: #8B6F1F; }
+.copy-btn {
+  font-size: 12px; color: #5F4D17; background: #fff; border: 0.5px solid #C9B775;
+  padding: 6px 12px; border-radius: 6px; cursor: pointer;
+  display: flex; align-items: center; gap: 5px; font-family: inherit; font-weight: 500;
+  transition: background 0.15s;
+}
+.copy-btn:hover { background: #FFFBEE; }
+.copy-btn.copied { background: #EAF3DE; border-color: #3B6D11; color: #27500A; }
+.account-number {
+  font-size: 18px; font-weight: 900; color: #5F4D17;
+  letter-spacing: -0.3px; margin-bottom: 4px;
+}
+.account-holder { font-size: 13px; color: #8B6F1F; margin-bottom: 14px; }
+.account-notice {
+  background: #F5EAC9; border-radius: 8px; padding: 12px 14px;
+  font-size: 12px; color: #5F4D17; line-height: 1.6;
+}
+.account-notice strong { font-weight: 700; }
 
-    .header-desc {
-      font-size: 13px;
-      color: #5F5E5A;
-      line-height: 1.6;
-    }
+.consent-info {
+  font-size: 12px; color: #5F5E5A; line-height: 1.7; margin-bottom: 14px;
+  background: #F8F8F5; padding: 12px 14px; border-radius: 8px;
+}
+.consent-info strong { font-weight: 700; color: #2c2c2a; }
+.consent-checkbox {
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+  padding: 12px 14px; background: #fff; border: 1px solid #E0E0E0; border-radius: 8px;
+}
+.consent-checkbox input { width: 18px; height: 18px; accent-color: #1960B5; cursor: pointer; }
+.consent-checkbox span { font-size: 13px; color: #2c2c2a; font-weight: 500; }
+.consent-checkbox.checked { border-color: #1960B5; background: #F0F7FF; }
 
-    .form-card {
-      background: #fff;
-      border-radius: 12px;
-      border: 0.5px solid rgba(0,0,0,0.08);
-      padding: 22px 20px 24px;
-    }
+.submit-btn {
+  width: 100%; background: #1960B5; color: #fff; border: none;
+  padding: 15px; border-radius: 10px; font-size: 15px; font-weight: 700;
+  cursor: pointer; margin-top: 16px; font-family: inherit;
+  transition: background 0.15s, transform 0.1s; letter-spacing: 0.5px;
+}
+.submit-btn:hover:not(:disabled) { background: #144A8E; }
+.submit-btn:active:not(:disabled) { transform: scale(0.98); }
+.submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .section {
-      margin-bottom: 20px;
-      padding-bottom: 20px;
-      border-bottom: 0.5px solid rgba(0,0,0,0.08);
-    }
+.footer-note { font-size: 11px; color: #888780; text-align: center; margin-top: 12px; }
+.brand-footer {
+  text-align: center; font-size: 11px; color: #888780;
+  margin-top: 20px; padding-top: 16px; border-top: 0.5px solid rgba(0,0,0,0.06);
+}
+.brand-footer-name { color: #1960B5; font-weight: 700; }
 
-    .section:last-of-type {
-      border-bottom: none;
-    }
+.success-msg {
+  display: none; background: #fff; border-radius: 16px;
+  padding: 40px 24px 32px; text-align: center; border: 0.5px solid rgba(0,0,0,0.08);
+}
+.success-msg.show { display: block; }
+.success-icon {
+  width: 64px; height: 64px; border-radius: 50%; background: #EAF3DE;
+  margin: 0 auto 18px; display: flex; align-items: center; justify-content: center;
+}
+.success-title { font-size: 19px; font-weight: 700; margin-bottom: 8px; }
+.success-desc { font-size: 14px; color: #5F5E5A; line-height: 1.6; }
 
-    .section-title {
-      font-size: 12px;
-      font-weight: 500;
-      color: #185FA5;
-      margin-bottom: 12px;
-      letter-spacing: 0.3px;
-    }
+.error-msg {
+  display: none; background: #FCEBEB; border-radius: 8px; padding: 12px;
+  margin-top: 10px; text-align: center; font-size: 13px; color: #A32D2D;
+}
+.error-msg.show { display: block; }
 
-    label {
-      display: block;
-      font-size: 13px;
-      color: #5F5E5A;
-      margin-bottom: 5px;
-      margin-top: 10px;
-    }
-
-    label:first-child, .section > label:first-of-type {
-      margin-top: 0;
-    }
-
-    .required::after {
-      content: ' *';
-      color: #E24B4A;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px 12px;
-      border: 0.5px solid rgba(0,0,0,0.2);
-      border-radius: 8px;
-      font-size: 15px;
-      font-family: inherit;
-      background: #fff;
-      color: #2c2c2a;
-      transition: border-color 0.15s;
-      -webkit-appearance: none;
-    }
-
-    input:focus {
-      outline: none;
-      border-color: #185FA5;
-      box-shadow: 0 0 0 3px rgba(24,95,165,0.1);
-    }
-
-    input::placeholder {
-      color: #B4B2A9;
-    }
-
-    .submit-btn {
-      width: 100%;
-      background: #2c2c2a;
-      color: #fff;
-      border: none;
-      padding: 14px;
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: 500;
-      cursor: pointer;
-      margin-top: 18px;
-      font-family: inherit;
-      transition: opacity 0.15s;
-    }
-
-    .submit-btn:hover:not(:disabled) {
-      opacity: 0.85;
-    }
-
-    .submit-btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    .footer-note {
-      font-size: 11px;
-      color: #888780;
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    .success-msg {
-      display: none;
-      background: #EAF3DE;
-      border-radius: 12px;
-      padding: 18px 20px;
-      margin-top: 14px;
-      text-align: center;
-    }
-
-    .success-msg.show { display: block; }
-
-    .success-title {
-      font-size: 15px;
-      color: #27500A;
-      font-weight: 500;
-    }
-
-    .success-desc {
-      font-size: 13px;
-      color: #3B6D11;
-      margin-top: 4px;
-    }
-
-    .error-msg {
-      display: none;
-      background: #FCEBEB;
-      border-radius: 8px;
-      padding: 12px;
-      margin-top: 10px;
-      text-align: center;
-      font-size: 13px;
-      color: #A32D2D;
-    }
-
-    .error-msg.show { display: block; }
-  </style>
+.uploading-overlay {
+  display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5); z-index: 1000;
+  align-items: center; justify-content: center;
+}
+.uploading-overlay.show { display: flex; }
+.uploading-box {
+  background: #fff; padding: 30px; border-radius: 12px; text-align: center;
+  max-width: 280px;
+}
+.spinner {
+  width: 40px; height: 40px; border: 3px solid #E0E0E0;
+  border-top-color: #1960B5; border-radius: 50%;
+  animation: spin 0.8s linear infinite; margin: 0 auto 14px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
 </head>
 <body>
-  <div class="container">
-
-    <div class="header">
-      <div class="header-row">
-        <div class="logo">세</div>
-        <div class="header-title">세무회계 경최</div>
+<div class="container">
+  <div id="form-wrapper">
+    <div class="brand-header">
+      <div class="brand-logo-row">
+        <img src="symbol-white.png" alt="세무회계 경최" class="brand-symbol" />
+        <div class="brand-text-group">
+          <div class="brand-name">세무회계 경최</div>
+          <div class="brand-en">TAX ACCOUNTING</div>
+        </div>
       </div>
-      <p class="header-desc">종합소득세 신고대리를 위해 아래 정보를 입력해주세요. 입력된 정보는 신고 목적으로만 사용되며 안전하게 보관됩니다.</p>
+      <div class="brand-slogan">진정한 세무대리의 가치를 전달드립니다</div>
+      <div class="intro-text">종합소득세 신고대리를 위해 아래 정보를 입력해주세요.<br>입력된 정보는 신고 목적으로만 사용되며 안전하게 보관됩니다.</div>
     </div>
 
-    <form id="taxForm" class="form-card">
+    <form id="taxForm">
 
-      <div class="section">
-        <div class="section-title">1. 기본 정보</div>
-
+      <div class="form-card">
+        <div class="section-header">
+          <div class="section-num">1</div>
+          <div class="section-title">기본 정보</div>
+        </div>
         <label class="required">업체명(상호)</label>
-        <input type="text" id="company" required placeholder="예: 알록달록비치펜션">
-
+        <input type="text" id="company" required placeholder="예: 세무회계 경최">
         <label class="required">대표자명</label>
-        <input type="text" id="ceo" required placeholder="예: 홍길동">
-
+        <input type="text" id="ceo" required placeholder="예: 정주현">
         <label class="required">전화번호</label>
         <input type="tel" id="phone" required placeholder="010-0000-0000">
-
         <label>이메일</label>
         <input type="email" id="email" placeholder="example@naver.com">
       </div>
 
-      <div class="section">
-        <div class="section-title">2. 홈택스 로그인 정보</div>
-
+      <div class="form-card">
+        <div class="section-header">
+          <div class="section-num">2</div>
+          <div class="section-title">홈택스 로그인 정보</div>
+        </div>
         <label class="required">홈택스 ID</label>
         <input type="text" id="htax_id" required placeholder="홈택스 로그인 아이디">
-
         <label class="required">홈택스 비밀번호</label>
         <input type="password" id="htax_pw" required placeholder="홈택스 로그인 비밀번호">
       </div>
 
-      <div class="section">
-        <div class="section-title">3. 개인 정보</div>
-
+      <div class="form-card">
+        <div class="section-header">
+          <div class="section-num">3</div>
+          <div class="section-title">개인 정보</div>
+        </div>
         <label class="required">주민등록번호</label>
         <input type="text" id="rrn" required placeholder="000000-0000000">
-
         <label class="required">자택 주소 (현재 거주지)</label>
         <input type="text" id="home_addr" required placeholder="도로명 주소 + 상세주소">
       </div>
 
-      <div class="section">
-        <div class="section-title">4. 사업자 정보</div>
-
+      <div class="form-card">
+        <div class="section-header">
+          <div class="section-num">4</div>
+          <div class="section-title">사업자 정보</div>
+        </div>
         <label class="required">사업자등록번호</label>
         <input type="text" id="biz_no" required placeholder="000-00-00000">
-
         <label class="required">사업장 주소</label>
         <input type="text" id="biz_addr" required placeholder="사업장 소재지">
+      </div>
+
+      <div class="form-card">
+        <div class="section-header">
+          <div class="section-num">5</div>
+          <div class="section-title">서류 첨부</div>
+        </div>
+        <div class="section-desc">PDF, JPG, PNG 형식 가능 · 휴대폰에서 카메라로 바로 촬영 가능</div>
+
+        <label class="required">사업자등록증</label>
+        <div class="file-upload-area" id="bizRegArea">
+          <svg class="file-upload-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1960B5" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          <div class="file-upload-text" id="bizRegText">파일 선택 또는 카메라 촬영</div>
+          <div class="file-upload-hint" id="bizRegHint">최대 25MB</div>
+          <input type="file" id="bizReg" accept="image/*,.pdf" required>
+        </div>
+
+        <label class="required" style="margin-top: 14px;">주민등록증 사본</label>
+        <div class="file-upload-area" id="idCardArea">
+          <svg class="file-upload-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1960B5" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          <div class="file-upload-text" id="idCardText">파일 선택 또는 카메라 촬영</div>
+          <div class="file-upload-hint" id="idCardHint">최대 25MB</div>
+          <input type="file" id="idCard" accept="image/*,.pdf" required>
+        </div>
+
+        <label style="margin-top: 14px;">기타 서류 (선택, 여러 개 가능)</label>
+        <div class="file-upload-area optional" id="othersArea">
+          <div class="file-upload-text" id="othersText">+ 파일 추가</div>
+          <input type="file" id="others" accept="image/*,.pdf" multiple>
+        </div>
+      </div>
+
+      <div class="account-card">
+        <div class="account-header">
+          <div class="account-label">입금 계좌</div>
+          <button type="button" class="copy-btn" id="copyBtn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            <span id="copyBtnText">계좌번호 복사</span>
+          </button>
+        </div>
+        <div class="account-number">농협 312-6533-6579-41</div>
+        <div class="account-holder">예금주: 정주현</div>
+        <div class="account-notice">
+          <strong>ⓘ 입금 순으로 접수가 완료</strong>되며, 금액의 수정이 필요한 경우 별도 연락 드립니다.<br>접수 완료 후 추가 자료 제출 안내 문자가 발송됩니다.
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div class="section-header">
+          <div class="section-num">6</div>
+          <div class="section-title">개인정보 수집·이용 동의</div>
+        </div>
+        <div class="consent-info">
+          <strong>수집 항목</strong>: 위 입력 정보 전체<br>
+          <strong>수집 목적</strong>: 종합소득세 신고대리 업무 수행<br>
+          <strong>보유 기간</strong>: 신고 완료 후 5년 (국세기본법에 따른 보관 의무)<br>
+          <strong>처리 위탁</strong>: 세무회계 경최
+        </div>
+        <label class="consent-checkbox" id="consentLabel">
+          <input type="checkbox" id="consent" required>
+          <span>*개인정보 수집 및 이용에 동의합니다.</span>
+        </label>
       </div>
 
       <button type="submit" class="submit-btn" id="submitBtn">제출하기</button>
       <p class="footer-note">제출된 정보는 세무사에게만 전달되며 안전하게 관리됩니다</p>
       <div class="error-msg" id="errorMsg"></div>
+
+      <div class="brand-footer">
+        © 세무회계 경최 · 대표 세무사 <span class="brand-footer-name">정주현</span>
+      </div>
     </form>
-
-    <div class="success-msg" id="successMsg">
-      <div class="success-title">✓ 제출이 완료되었습니다</div>
-      <div class="success-desc">세무사가 확인 후 연락드릴 예정입니다</div>
-    </div>
-
   </div>
 
-  <script>
-    // ⚠️ 여기를 Apps Script 배포 후 받은 웹 앱 URL로 바꿔주세요
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWDsGBicvsLW8ICjLjiEfV3E6F0y0sm156LSJH4-V9O0lxiT15UEbO2S9TMKDVrnhR/exec';
+  <div class="success-msg" id="successMsg">
+    <div class="success-icon">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+    <div class="success-title">제출이 완료되었습니다</div>
+    <div class="success-desc">소중한 정보 감사합니다.<br>입금 확인 후 연락드리겠습니다.</div>
+    <div class="brand-footer">
+      © 세무회계 경최 · 대표 세무사 <span class="brand-footer-name">정주현</span>
+    </div>
+  </div>
+</div>
 
-    document.getElementById('taxForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
+<div class="uploading-overlay" id="uploadingOverlay">
+  <div class="uploading-box">
+    <div class="spinner"></div>
+    <div style="font-size: 14px; font-weight: 500;">제출 중입니다...</div>
+    <div style="font-size: 12px; color: #888; margin-top: 6px;">파일이 큰 경우 시간이 걸릴 수 있어요</div>
+  </div>
+</div>
 
-      const btn = document.getElementById('submitBtn');
-      const errorMsg = document.getElementById('errorMsg');
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWDsGBicvsLW8ICjLjiEfV3E6F0y0sm156LSJH4-V9O0lxiT15UEbO2S9TMKDVrnhR/exec';
+const ACCOUNT_NUMBER = '312-6533-6579-41';
 
-      // 로딩 상태
-      btn.disabled = true;
-      btn.textContent = '제출 중...';
-      errorMsg.classList.remove('show');
+// 파일 → base64 변환
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = reader.result.split(',')[1];
+      resolve(base64);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
 
-      const data = {
-        company:   document.getElementById('company').value.trim(),
-        ceo:       document.getElementById('ceo').value.trim(),
-        phone:     document.getElementById('phone').value.trim(),
-        email:     document.getElementById('email').value.trim(),
-        htax_id:   document.getElementById('htax_id').value.trim(),
-        htax_pw:   document.getElementById('htax_pw').value,
-        rrn:       document.getElementById('rrn').value.trim(),
-        home_addr: document.getElementById('home_addr').value.trim(),
-        biz_no:    document.getElementById('biz_no').value.trim(),
-        biz_addr:  document.getElementById('biz_addr').value.trim()
-      };
+// 파일 선택 UI 업데이트
+function setupFileInput(inputId, areaId, textId, hintId, isMultiple) {
+  const input = document.getElementById(inputId);
+  const area = document.getElementById(areaId);
+  const text = document.getElementById(textId);
+  const hint = hintId ? document.getElementById(hintId) : null;
 
-      try {
-        // Apps Script로 전송 (no-cors 모드 사용)
-        await fetch(APPS_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(data)
-        });
+  input.addEventListener('change', function(e) {
+    const files = e.target.files;
+    if (files.length === 0) return;
 
-        // 성공 처리
-        document.getElementById('taxForm').style.display = 'none';
-        document.getElementById('successMsg').classList.add('show');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (isMultiple && files.length > 1) {
+      text.textContent = `✓ ${files.length}개 파일 선택됨`;
+      area.classList.add('has-file');
+    } else {
+      const file = files[0];
+      const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
+      text.textContent = `✓ ${file.name}`;
+      if (hint) hint.textContent = `${sizeMB} MB · 선택됨`;
+      area.classList.add('has-file');
+    }
 
-      } catch (err) {
-        btn.disabled = false;
-        btn.textContent = '제출하기';
-        errorMsg.textContent = '전송 중 오류가 발생했습니다. 다시 시도해주세요.';
-        errorMsg.classList.add('show');
+    // 파일 크기 체크 (25MB)
+    for (let i = 0; i < files.length; i++) {
+      if (files[i].size > 25 * 1024 * 1024) {
+        alert(`"${files[i].name}" 파일이 25MB를 초과합니다.`);
+        input.value = '';
+        text.textContent = '파일 선택 또는 카메라 촬영';
+        if (hint) hint.textContent = '최대 25MB';
+        area.classList.remove('has-file');
+        return;
       }
+    }
+  });
+}
+
+setupFileInput('bizReg', 'bizRegArea', 'bizRegText', 'bizRegHint', false);
+setupFileInput('idCard', 'idCardArea', 'idCardText', 'idCardHint', false);
+setupFileInput('others', 'othersArea', 'othersText', null, true);
+
+// 계좌번호 복사
+document.getElementById('copyBtn').addEventListener('click', function() {
+  navigator.clipboard.writeText(ACCOUNT_NUMBER).then(() => {
+    const btn = this;
+    const text = document.getElementById('copyBtnText');
+    btn.classList.add('copied');
+    text.textContent = '복사 완료!';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      text.textContent = '계좌번호 복사';
+    }, 2000);
+  }).catch(() => {
+    // fallback - 구형 브라우저
+    const tmp = document.createElement('input');
+    tmp.value = ACCOUNT_NUMBER;
+    document.body.appendChild(tmp);
+    tmp.select();
+    document.execCommand('copy');
+    document.body.removeChild(tmp);
+    alert('계좌번호가 복사되었습니다: ' + ACCOUNT_NUMBER);
+  });
+});
+
+// 동의 체크박스 시각효과
+document.getElementById('consent').addEventListener('change', function(e) {
+  document.getElementById('consentLabel').classList.toggle('checked', e.target.checked);
+});
+
+// 폼 제출
+document.getElementById('taxForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const btn = document.getElementById('submitBtn');
+  const errorMsg = document.getElementById('errorMsg');
+  const overlay = document.getElementById('uploadingOverlay');
+
+  if (!document.getElementById('consent').checked) {
+    errorMsg.textContent = '개인정보 수집 및 이용에 동의해주세요.';
+    errorMsg.classList.add('show');
+    return;
+  }
+
+  btn.disabled = true;
+  errorMsg.classList.remove('show');
+  overlay.classList.add('show');
+
+  try {
+    // 파일 모으기
+    const files = [];
+    
+    const bizRegFile = document.getElementById('bizReg').files[0];
+    if (bizRegFile) {
+      files.push({
+        fieldName: 'bizReg',
+        fileName: bizRegFile.name,
+        mimeType: bizRegFile.type,
+        base64: await fileToBase64(bizRegFile)
+      });
+    }
+    
+    const idCardFile = document.getElementById('idCard').files[0];
+    if (idCardFile) {
+      files.push({
+        fieldName: 'idCard',
+        fileName: idCardFile.name,
+        mimeType: idCardFile.type,
+        base64: await fileToBase64(idCardFile)
+      });
+    }
+    
+    const otherFiles = document.getElementById('others').files;
+    for (let i = 0; i < otherFiles.length; i++) {
+      files.push({
+        fieldName: 'others',
+        fileName: otherFiles[i].name,
+        mimeType: otherFiles[i].type,
+        base64: await fileToBase64(otherFiles[i])
+      });
+    }
+
+    const data = {
+      company:   document.getElementById('company').value.trim(),
+      ceo:       document.getElementById('ceo').value.trim(),
+      phone:     document.getElementById('phone').value.trim(),
+      email:     document.getElementById('email').value.trim(),
+      htax_id:   document.getElementById('htax_id').value.trim(),
+      htax_pw:   document.getElementById('htax_pw').value,
+      rrn:       document.getElementById('rrn').value.trim(),
+      home_addr: document.getElementById('home_addr').value.trim(),
+      biz_no:    document.getElementById('biz_no').value.trim(),
+      biz_addr:  document.getElementById('biz_addr').value.trim(),
+      consent:   document.getElementById('consent').checked,
+      files:     files
+    };
+
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(data)
     });
 
-    // 주민번호 자동 하이픈
-    document.getElementById('rrn').addEventListener('input', function(e) {
-      let v = e.target.value.replace(/[^0-9]/g, '');
-      if (v.length > 6) v = v.slice(0,6) + '-' + v.slice(6,13);
-      e.target.value = v;
-    });
+    overlay.classList.remove('show');
+    document.getElementById('form-wrapper').style.display = 'none';
+    document.getElementById('successMsg').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // 사업자번호 자동 하이픈
-    document.getElementById('biz_no').addEventListener('input', function(e) {
-      let v = e.target.value.replace(/[^0-9]/g, '');
-      if (v.length > 5) v = v.slice(0,3) + '-' + v.slice(3,5) + '-' + v.slice(5,10);
-      else if (v.length > 3) v = v.slice(0,3) + '-' + v.slice(3);
-      e.target.value = v;
-    });
+  } catch (err) {
+    overlay.classList.remove('show');
+    btn.disabled = false;
+    errorMsg.textContent = '전송 중 오류가 발생했습니다. 다시 시도해주세요.';
+    errorMsg.classList.add('show');
+    console.error(err);
+  }
+});
 
-    // 전화번호 자동 하이픈
-    document.getElementById('phone').addEventListener('input', function(e) {
-      let v = e.target.value.replace(/[^0-9]/g, '');
-      if (v.length > 7) v = v.slice(0,3) + '-' + v.slice(3,7) + '-' + v.slice(7,11);
-      else if (v.length > 3) v = v.slice(0,3) + '-' + v.slice(3);
-      e.target.value = v;
-    });
-  </script>
+// 자동 하이픈
+document.getElementById('rrn').addEventListener('input', function(e) {
+  let v = e.target.value.replace(/[^0-9]/g, '');
+  if (v.length > 6) v = v.slice(0,6) + '-' + v.slice(6,13);
+  e.target.value = v;
+});
+document.getElementById('biz_no').addEventListener('input', function(e) {
+  let v = e.target.value.replace(/[^0-9]/g, '');
+  if (v.length > 5) v = v.slice(0,3) + '-' + v.slice(3,5) + '-' + v.slice(5,10);
+  else if (v.length > 3) v = v.slice(0,3) + '-' + v.slice(3);
+  e.target.value = v;
+});
+document.getElementById('phone').addEventListener('input', function(e) {
+  let v = e.target.value.replace(/[^0-9]/g, '');
+  if (v.length > 7) v = v.slice(0,3) + '-' + v.slice(3,7) + '-' + v.slice(7,11);
+  else if (v.length > 3) v = v.slice(0,3) + '-' + v.slice(3);
+  e.target.value = v;
+});
+</script>
 </body>
 </html>
