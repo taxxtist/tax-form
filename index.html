@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -234,8 +235,14 @@ input::placeholder { color: #B4B2A9; font-weight: 400; }
         </div>
         <label class="required">주민등록번호</label>
         <input type="text" id="rrn" required placeholder="000000-0000000">
-        <label class="required">자택 주소 (현재 거주지)</label>
-        <input type="text" id="home_addr" required placeholder="도로명 주소 + 상세주소">
+        <label class="required">자택 주소 (도로명)</label>
+        <div style="display: flex; gap: 8px;">
+          <input type="text" id="home_addr" required readonly placeholder="검색 버튼을 눌러주세요" style="flex: 1; cursor: pointer; background: #fafaf8;" onclick="searchAddress('home')">
+          <button type="button" onclick="searchAddress('home')" style="background: #1960B5; color: white; border: none; padding: 0 18px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; white-space: nowrap;">🔍 검색</button>
+        </div>
+
+        <label class="required" style="margin-top: 12px;">자택 상세주소</label>
+        <input type="text" id="home_addr_detail" required placeholder="예: 101동 502호">
       </div>
 
       <div class="form-card">
@@ -245,8 +252,14 @@ input::placeholder { color: #B4B2A9; font-weight: 400; }
         </div>
         <label class="required">사업자등록번호</label>
         <input type="text" id="biz_no" required placeholder="000-00-00000">
-        <label class="required">사업장 주소</label>
-        <input type="text" id="biz_addr" required placeholder="사업장 소재지">
+        <label class="required">사업장 주소 (도로명)</label>
+        <div style="display: flex; gap: 8px;">
+          <input type="text" id="biz_addr" required readonly placeholder="검색 버튼을 눌러주세요" style="flex: 1; cursor: pointer; background: #fafaf8;" onclick="searchAddress('biz')">
+          <button type="button" onclick="searchAddress('biz')" style="background: #1960B5; color: white; border: none; padding: 0 18px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; white-space: nowrap;">🔍 검색</button>
+        </div>
+
+        <label class="required" style="margin-top: 12px;">사업장 상세주소</label>
+        <input type="text" id="biz_addr_detail" required placeholder="예: 1층, 102호">
       </div>
 
       <div class="form-card">
@@ -358,8 +371,26 @@ input::placeholder { color: #B4B2A9; font-weight: 400; }
 </div>
 
 <script>
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWDsGBicvsLW8ICjLjiEfV3E6F0y0sm156LSJH4-V9O0lxiT15UEbO2S9TMKDVrnhR/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx_yIsfioLO_OhByuluo0gO8eiajc3AbPRfNOBvGc2vk9uAdYt-1LHT7VNrwCU6teSN/exec';
 const ACCOUNT_NUMBER = '312-6533-6579-41';
+
+// 다음 주소 검색
+function searchAddress(type) {
+  new daum.Postcode({
+    oncomplete: function(data) {
+      // 도로명 주소 우선, 없으면 지번 주소
+      var addr = data.roadAddress || data.jibunAddress;
+      
+      if (type === 'home') {
+        document.getElementById('home_addr').value = addr;
+        document.getElementById('home_addr_detail').focus();
+      } else if (type === 'biz') {
+        document.getElementById('biz_addr').value = addr;
+        document.getElementById('biz_addr_detail').focus();
+      }
+    }
+  }).open();
+}
 
 // 파일 → base64 변환
 function fileToBase64(file) {
@@ -554,9 +585,9 @@ document.getElementById('taxForm').addEventListener('submit', async function(e) 
       htax_id:   document.getElementById('htax_id').value.trim(),
       htax_pw:   document.getElementById('htax_pw').value,
       rrn:       document.getElementById('rrn').value.trim(),
-      home_addr: document.getElementById('home_addr').value.trim(),
+      home_addr: (document.getElementById('home_addr').value.trim() + ' ' + document.getElementById('home_addr_detail').value.trim()).trim(),
       biz_no:    document.getElementById('biz_no').value.trim(),
-      biz_addr:  document.getElementById('biz_addr').value.trim(),
+      biz_addr:  (document.getElementById('biz_addr').value.trim() + ' ' + document.getElementById('biz_addr_detail').value.trim()).trim(),
       consent:   document.getElementById('consent').checked,
       files:     files
     };
