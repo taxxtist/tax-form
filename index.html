@@ -233,6 +233,7 @@ input::placeholder { color: #B4B2A9; font-weight: 400; }
           <div class="section-num">3</div>
           <div class="section-title">개인 정보</div>
         </div>
+        <div class="section-desc">종합소득세 및 지방소득세 신고 시 주민등록번호와 현재 주소가 필요합니다.</div>
         <label class="required">주민등록번호</label>
         <input type="text" id="rrn" required placeholder="000000-0000000">
         <label class="required">자택 주소 (도로명)</label>
@@ -249,6 +250,11 @@ input::placeholder { color: #B4B2A9; font-weight: 400; }
         <div class="section-header">
           <div class="section-num">4</div>
           <div class="section-title">사업자 정보</div>
+        </div>
+        <div class="section-desc">종합소득세 및 지방소득세 신고 시 사업자등록번호와 사업장 주소가 필요합니다.</div>
+        <div style="background: #FBF5E5; border-left: 3px solid #C9A347; padding: 10px 12px; border-radius: 6px; font-size: 12px; color: #5F4D17; line-height: 1.6; margin-bottom: 14px;">
+          <strong>⚠️ 사업자가 2개 이상인 경우</strong><br>
+          주사업장만 입력하시고, <strong>사업자등록증은 모두 첨부</strong>해주세요.
         </div>
         <label class="required">사업자등록번호</label>
         <input type="text" id="biz_no" required placeholder="000-00-00000">
@@ -269,7 +275,7 @@ input::placeholder { color: #B4B2A9; font-weight: 400; }
         </div>
         <div class="section-desc">PDF, JPG, PNG 형식 가능 · 휴대폰에서 카메라로 바로 촬영 가능</div>
 
-        <label>사업자등록증 (선택)</label>
+        <label class="required">사업자등록증</label>
         <div class="file-upload-area" id="bizRegArea">
           <svg class="file-upload-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1960B5" stroke-width="2">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -278,10 +284,10 @@ input::placeholder { color: #B4B2A9; font-weight: 400; }
           </svg>
           <div class="file-upload-text" id="bizRegText">파일 선택 또는 카메라 촬영</div>
           <div class="file-upload-hint" id="bizRegHint">최대 25MB</div>
-          <input type="file" id="bizReg" accept="image/*,.pdf">
+          <input type="file" id="bizReg" accept="image/*,.pdf" required>
         </div>
 
-        <label style="margin-top: 14px;">주민등록증 사본 (선택)</label>
+        <label class="required" style="margin-top: 14px;">주민등록증 사본</label>
         <div class="file-upload-area" id="idCardArea">
           <svg class="file-upload-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1960B5" stroke-width="2">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -290,10 +296,11 @@ input::placeholder { color: #B4B2A9; font-weight: 400; }
           </svg>
           <div class="file-upload-text" id="idCardText">파일 선택 또는 카메라 촬영</div>
           <div class="file-upload-hint" id="idCardHint">최대 25MB</div>
-          <input type="file" id="idCard" accept="image/*,.pdf">
+          <input type="file" id="idCard" accept="image/*,.pdf" required>
         </div>
 
         <label style="margin-top: 14px;">기타 서류 (선택, 여러 개 가능)</label>
+        <div style="font-size: 12px; color: #888780; margin-bottom: 8px; line-height: 1.5;">※ 부양가족 입력을 원하시는 경우 <strong style="color: #1960B5;">등본</strong>을 첨부해주세요.</div>
         
         <div id="othersFileList"></div>
         
