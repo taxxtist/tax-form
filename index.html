@@ -264,7 +264,8 @@ input::placeholder { color: #B4B2A9; font-weight: 400; }
           <div class="section-title">기본 정보</div>
         </div>
         <label id="companyLabel" class="required">업체명(상호)</label>
-        <input type="text" id="company" required placeholder="예: 세무회계 경최">
+        <div style="font-size: 11px; color: #888780; margin: -2px 0 5px; line-height: 1.5;">※ 프리랜서는 <strong style="color: #1960B5;">성함</strong>을 입력해주세요.</div>
+        <input type="text" id="company" required placeholder="예: 세무회계 경최 (프리랜서는 성함)">
         <label class="required">대표자명</label>
         <input type="text" id="ceo" required placeholder="예: 정주현">
         <label class="required">전화번호</label>
@@ -342,8 +343,7 @@ input::placeholder { color: #B4B2A9; font-weight: 400; }
 
         <div id="freelancer_msg" style="display: none; background: #EAF3DE; border: 1px solid #C0DD97; border-radius: 8px; padding: 14px 16px; font-size: 13px; color: #27500A; line-height: 1.6;">
           ✓ 프리랜서로 선택되어 추가 입력이 필요 없습니다.<br>
-          <span style="font-size: 11px; color: #3B6D11;">3.3% 사업소득자는 사업자등록번호 / 사업장 주소가 없으셔도 됩니다.</span><br>
-          <span style="font-size: 11px; color: #3B6D11; margin-top: 4px; display: inline-block;">📌 위 <strong>업체명(상호)</strong> 칸에는 <strong>성함</strong>을 입력해주세요.</span>
+          <span style="font-size: 11px; color: #3B6D11;">3.3% 사업소득자는 사업자등록번호 / 사업장 주소가 없으셔도 됩니다.</span>
         </div>
       </div>
 
@@ -499,10 +499,6 @@ function selectBizType(type) {
   var bizRegInput = document.getElementById('bizReg');
   var bizRegLabel = document.getElementById('bizRegLabel');
   
-  // 업체명 라벨 + placeholder
-  var company = document.getElementById('company');
-  var companyLabel = document.getElementById('companyLabel');
-  
   if (type === 'general') {
     // 일반 사업자: 입력칸 보임 + 필수
     generalFields.style.display = 'block';
@@ -515,10 +511,6 @@ function selectBizType(type) {
     bizRegInput.setAttribute('required', '');
     bizRegLabel.classList.add('required');
     bizRegLabel.textContent = '사업자등록증';
-    
-    // 업체명 → 일반 안내
-    companyLabel.textContent = '업체명(상호)';
-    company.placeholder = '예: 세무회계 경최';
   } else {
     // 프리랜서: 입력칸 숨김 + 필수 해제
     generalFields.style.display = 'none';
@@ -535,10 +527,6 @@ function selectBizType(type) {
     bizRegInput.removeAttribute('required');
     bizRegLabel.classList.remove('required');
     bizRegLabel.textContent = '사업자등록증 (해당 시)';
-    
-    // 업체명 → 성함 입력 안내
-    companyLabel.textContent = '성함';
-    company.placeholder = '예: 홍길동 (프리랜서는 성함을 입력해주세요)';
   }
 }
 
