@@ -111,6 +111,43 @@ input::placeholder { color: #B4B2A9; font-weight: 400; }
 }
 .file-list-item-remove:hover { color: #E24B4A; }
 
+.biz-type-card {
+  background: #fff;
+  border: 1px solid #B4B2A9;
+  border-radius: 8px;
+  padding: 14px 12px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+  display: block;
+}
+.biz-type-card:hover {
+  border-color: #85B7EB;
+  background: #F5FAFF;
+}
+.biz-type-card.selected {
+  background: #F0F7FF;
+  border: 1.5px solid #1960B5;
+}
+.biz-type-card .biz-type-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #5F5E5A;
+  margin-top: 2px;
+}
+.biz-type-card.selected .biz-type-name {
+  font-weight: 700;
+  color: #1960B5;
+}
+.biz-type-card .biz-type-desc {
+  font-size: 11px;
+  color: #888780;
+  margin-top: 2px;
+}
+.biz-type-card.selected .biz-type-desc {
+  color: #5F5E5A;
+}
+
 .account-card {
   background: #FBF5E5; border-radius: 12px; border: 0.5px solid #E5D5A6;
   padding: 22px 20px; margin-top: 12px;
@@ -270,21 +307,43 @@ input::placeholder { color: #B4B2A9; font-weight: 400; }
           <div class="section-num">4</div>
           <div class="section-title">사업자 정보</div>
         </div>
-        <div class="section-desc">종합소득세 및 지방소득세 신고 시 사업자등록번호와 사업장 주소가 필요합니다.</div>
-        <div style="background: #FBF5E5; border-left: 3px solid #C9A347; padding: 10px 12px; border-radius: 6px; font-size: 12px; color: #5F4D17; line-height: 1.6; margin-bottom: 14px;">
-          <strong>⚠️ 사업자가 2개 이상인 경우</strong><br>
-          주사업장만 입력하시고, <strong>사업자등록증은 모두 첨부</strong>해주세요.
-        </div>
-        <label class="required">사업자등록번호</label>
-        <input type="text" id="biz_no" required placeholder="000-00-00000">
-        <label class="required">사업장 주소 (도로명)</label>
-        <div style="display: flex; gap: 8px;">
-          <input type="text" id="biz_addr" required readonly placeholder="검색 버튼을 눌러주세요" style="flex: 1; cursor: pointer; background: #fafaf8;" onclick="searchAddress('biz')">
-          <button type="button" onclick="searchAddress('biz')" style="background: #1960B5; color: white; border: none; padding: 0 18px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; white-space: nowrap;">🔍 검색</button>
+        <div class="section-desc">종합소득세 및 지방소득세 신고 시 필요한 정보입니다.</div>
+        
+        <label class="required">사업자 유형</label>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px;">
+          <label class="biz-type-card" data-type="general" onclick="selectBizType('general')">
+            <input type="radio" name="biz_type" value="general" checked style="margin-bottom: 6px; accent-color: #1960B5;">
+            <div class="biz-type-name">일반 사업자</div>
+            <div class="biz-type-desc">사업자등록증 있음</div>
+          </label>
+          <label class="biz-type-card" data-type="freelancer" onclick="selectBizType('freelancer')">
+            <input type="radio" name="biz_type" value="freelancer" style="margin-bottom: 6px; accent-color: #1960B5;">
+            <div class="biz-type-name">프리랜서</div>
+            <div class="biz-type-desc">3.3% 사업소득자</div>
+          </label>
         </div>
 
-        <label class="required" style="margin-top: 12px;">사업장 상세주소</label>
-        <input type="text" id="biz_addr_detail" required placeholder="예: 1층, 102호">
+        <div id="general_biz_fields">
+          <div style="background: #FBF5E5; border-left: 3px solid #C9A347; padding: 10px 12px; border-radius: 6px; font-size: 12px; color: #5F4D17; line-height: 1.6; margin-bottom: 14px;">
+            <strong>⚠️ 사업자가 2개 이상인 경우</strong><br>
+            주사업장만 입력하시고, <strong>사업자등록증은 모두 첨부</strong>해주세요.
+          </div>
+          <label class="required">사업자등록번호</label>
+          <input type="text" id="biz_no" placeholder="000-00-00000">
+          <label class="required">사업장 주소 (도로명)</label>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="biz_addr" readonly placeholder="검색 버튼을 눌러주세요" style="flex: 1; cursor: pointer; background: #fafaf8;" onclick="searchAddress('biz')">
+            <button type="button" onclick="searchAddress('biz')" style="background: #1960B5; color: white; border: none; padding: 0 18px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; white-space: nowrap;">🔍 검색</button>
+          </div>
+
+          <label class="required" style="margin-top: 12px;">사업장 상세주소</label>
+          <input type="text" id="biz_addr_detail" placeholder="예: 1층, 102호">
+        </div>
+
+        <div id="freelancer_msg" style="display: none; background: #EAF3DE; border: 1px solid #C0DD97; border-radius: 8px; padding: 14px 16px; font-size: 13px; color: #27500A; line-height: 1.6;">
+          ✓ 프리랜서로 선택되어 추가 입력이 필요 없습니다.<br>
+          <span style="font-size: 11px; color: #3B6D11;">3.3% 사업소득자는 사업자등록번호 / 사업장 주소가 없으셔도 됩니다.</span>
+        </div>
       </div>
 
       <div class="form-card">
@@ -294,7 +353,7 @@ input::placeholder { color: #B4B2A9; font-weight: 400; }
         </div>
         <div class="section-desc">PDF, JPG, PNG 형식 가능 · 휴대폰에서 카메라로 바로 촬영 가능</div>
 
-        <label class="required">사업자등록증</label>
+        <label id="bizRegLabel" class="required">사업자등록증</label>
         <div class="file-upload-area" id="bizRegArea">
           <svg class="file-upload-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1960B5" stroke-width="2">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -417,6 +476,63 @@ function searchAddress(type) {
     }
   }).open();
 }
+
+// 사업자 유형 선택 - 일반/프리랜서 전환
+function selectBizType(type) {
+  // 라디오 버튼 체크
+  document.querySelector('input[name="biz_type"][value="' + type + '"]').checked = true;
+  
+  // 카드 선택 표시
+  document.querySelectorAll('.biz-type-card').forEach(function(card) {
+    card.classList.remove('selected');
+  });
+  document.querySelector('.biz-type-card[data-type="' + type + '"]').classList.add('selected');
+  
+  var generalFields = document.getElementById('general_biz_fields');
+  var freelancerMsg = document.getElementById('freelancer_msg');
+  var bizNo = document.getElementById('biz_no');
+  var bizAddr = document.getElementById('biz_addr');
+  var bizAddrDetail = document.getElementById('biz_addr_detail');
+  
+  // 사업자등록증 필수 여부 변경
+  var bizRegInput = document.getElementById('bizReg');
+  var bizRegLabel = document.getElementById('bizRegLabel');
+  
+  if (type === 'general') {
+    // 일반 사업자: 입력칸 보임 + 필수
+    generalFields.style.display = 'block';
+    freelancerMsg.style.display = 'none';
+    bizNo.setAttribute('required', '');
+    bizAddr.setAttribute('required', '');
+    bizAddrDetail.setAttribute('required', '');
+    
+    // 사업자등록증 → 필수
+    bizRegInput.setAttribute('required', '');
+    bizRegLabel.classList.add('required');
+    bizRegLabel.textContent = '사업자등록증';
+  } else {
+    // 프리랜서: 입력칸 숨김 + 필수 해제
+    generalFields.style.display = 'none';
+    freelancerMsg.style.display = 'block';
+    bizNo.removeAttribute('required');
+    bizAddr.removeAttribute('required');
+    bizAddrDetail.removeAttribute('required');
+    // 값 초기화 (제출 시 빈 값으로 가도록)
+    bizNo.value = '';
+    bizAddr.value = '';
+    bizAddrDetail.value = '';
+    
+    // 사업자등록증 → 선택
+    bizRegInput.removeAttribute('required');
+    bizRegLabel.classList.remove('required');
+    bizRegLabel.textContent = '사업자등록증 (해당 시)';
+  }
+}
+
+// 페이지 로드 시 일반 사업자 카드에 selected 클래스 적용
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelector('.biz-type-card[data-type="general"]').classList.add('selected');
+});
 
 // 파일 → base64 변환
 function fileToBase64(file) {
@@ -614,6 +730,7 @@ document.getElementById('taxForm').addEventListener('submit', async function(e) 
       home_addr: (document.getElementById('home_addr').value.trim() + ' ' + document.getElementById('home_addr_detail').value.trim()).trim(),
       biz_no:    document.getElementById('biz_no').value.trim(),
       biz_addr:  (document.getElementById('biz_addr').value.trim() + ' ' + document.getElementById('biz_addr_detail').value.trim()).trim(),
+      biz_type:  document.querySelector('input[name="biz_type"]:checked').value === 'general' ? '일반사업자' : '프리랜서',
       consent:   document.getElementById('consent').checked,
       files:     files
     };
